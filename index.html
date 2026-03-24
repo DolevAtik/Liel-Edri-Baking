@@ -1106,7 +1106,7 @@
         desc: "כדורי שוקולד ביתיים עם מילוי גנאש עשיר",
         price: 65,
         unit: "12 יחידות",
-        img: "truffles.jpg"
+        img: "ITEM1.jpeg"
       },
       {
         id: 2,
@@ -1114,7 +1114,7 @@
         desc: "עוגת גבינה קרמית אפויה על בסיס ביסקוויטים",
         price: 20,
         unit: "לאריזה",
-        img: "cheesecake.jpg"
+        img: "ITEM2.jpeg"
       },
       {
         id: 3,
@@ -1122,7 +1122,7 @@
         desc: "בראוניז עשירים ולחים עם שוקולד בלגי",
         price: 80,
         unit: "לאריזה",
-        img: "brownies.jpg"
+        img: "ITEM3.jpeg"
       },
       {
         id: 4,
@@ -1130,7 +1130,7 @@
         desc: "עוגיות חמאה קלאסיות ומתפוררות",
         price: 55,
         unit: "לתריסר",
-        img: "cookies.jpg"
+        img: "ITEM4.jpeg"
       },
       {
         id: 5,
@@ -1138,7 +1138,7 @@
         desc: "מקרונים צרפתיים עם מגוון טעמים עדינים",
         price: 90,
         unit: "לאריזה",
-        img: "macarons.jpg"
+        img: "ITEM5.jpeg"
       },
       {
         id: 6,
@@ -1146,7 +1146,7 @@
         desc: "עוגת שכבות מרהיבה מוכנה לפי הזמנה",
         price: 220,
         unit: "לכל העוגה",
-        img: "cake.jpg"
+        img: "ITEM6.jpeg"
       },
       {
         id: 7,
@@ -1154,7 +1154,7 @@
         desc: "עוגת שכבות מרהיבה מוכנה לפי הזמנה",
         price: 220,
         unit: "לכל העוגה",
-        img: "cake.jpg"
+        img: "ITEM7.jpeg"
       },
     {
         id: 8,
@@ -1162,19 +1162,12 @@
         desc: "עוגת שכבות מרהיבה מוכנה לפי הזמנה",
         price: 220,
         unit: "לכל העוגה",
-        img: "cake.jpg"
+        img: "ITEM8.jpeg"
       }
     ];
 
-    /* Maps product img filename → local generated file */
-    const imgMap = {
-      "truffles.jpg": "truffles_product_1774367678723.png",
-      "cheesecake.jpg": "cheesecake_product_1774367697013.png",
-      "brownies.jpg": "brownies_product_1774367716912.png",
-      "cookies.jpg": "cookies_product_1774367736464.png",
-      "macarons.jpg": "macarons_product_1774367752465.png",
-      "cake.jpg": "cake_product_1774367768151.png"
-    };
+    /* imgMap – images are now referenced directly by filename */
+    const imgMap = {};
 
     /* ───── CART STATE ───── */
     let cart = {};   /* { id: quantity } */
