@@ -829,6 +829,120 @@
       flex-shrink: 0;
     }
 
+    /* ─── SPECIAL PACKAGES ────────────────────────────────────────────────── */
+    #packages {
+      padding: 80px 20px;
+      background: var(--white);
+    }
+
+    .packages-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .packages-header .divider {
+      margin: .9rem auto 1.2rem;
+    }
+
+    .packages-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 700px) {
+      .packages-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .package-card {
+      background: var(--cream);
+      border: 1.5px solid var(--sand);
+      border-radius: calc(var(--radius)*1.2);
+      padding: 30px 24px;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .package-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .package-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: var(--accent);
+    }
+
+    .package-icon {
+      font-size: 2.4rem;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .package-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+
+    .package-desc {
+      font-size: .88rem;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    .packages-cta {
+      max-width: 500px;
+      margin: 44px auto 0;
+      text-align: center;
+    }
+
+    .packages-cta p {
+      font-size: .95rem;
+      color: var(--gray);
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    .btn-packages-wa {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      letter-spacing: .02em;
+      box-shadow: 0 6px 20px rgba(196, 144, 89, .35);
+    }
+
+    .btn-packages-wa:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(196, 144, 89, .45);
+    }
+
     /* ─── FOOTER ────────────────────────────────────────────────────────────── */
     footer {
       background: var(--black);
@@ -939,6 +1053,155 @@
         font-size: .8rem;
       }
     }
+
+    /* ─── FLAVOR MODAL ────────────────────────────────────────────────── */
+    .flavor-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 23, 20, .45);
+      z-index: 1100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .flavor-overlay.open {
+      display: flex;
+    }
+
+    .flavor-modal {
+      background: var(--white);
+      border-radius: calc(var(--radius)*1.5);
+      padding: 32px 28px 28px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(26, 23, 20, .2);
+      position: relative;
+      animation: fadeUp .3s ease both;
+    }
+
+    .flavor-modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      margin-bottom: 6px;
+    }
+
+    .flavor-modal-sub {
+      font-size: .83rem;
+      color: var(--gray);
+      margin-bottom: 22px;
+    }
+
+    .flavor-modal-close {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: var(--gray);
+      line-height: 1;
+    }
+
+    .mix-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .mix-opt {
+      border: 1.5px solid var(--sand);
+      border-radius: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .mix-opt input[type="radio"] {
+      display: none;
+    }
+
+    .mix-opt:has(input:checked) {
+      border-color: var(--accent);
+      background: #fdf8f3;
+    }
+
+    .mix-opt-title {
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    .mix-opt-desc {
+      font-size: .8rem;
+      color: var(--gray);
+      margin-top: 2px;
+    }
+
+    .flavor-pickers {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .flavor-pickers.visible {
+      display: flex;
+    }
+
+    .flavor-pick-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .flavor-pick-label {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--gray);
+      min-width: 56px;
+    }
+
+    .flavor-select {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1.5px solid var(--sand);
+      border-radius: 10px;
+      font-family: 'Heebo', sans-serif;
+      font-size: .9rem;
+      background: var(--white);
+      color: var(--black);
+      direction: rtl;
+      transition: border-color var(--transition);
+    }
+
+    .flavor-select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .btn-add-flavored {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent2);
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-add-flavored:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 
@@ -982,7 +1245,7 @@
         LIEL EDRI<br><em>Homemade Baking</em>
       </h1>
       <p class="hero-sub">
-קינוחים בעבודת יד עם המרכיבים האיכותיים ביותר, שמגיעים אליכם עם המון אהבה.
+        קינוחים בעבודת יד עם המרכיבים האיכותיים ביותר, שמגיעים אליכם עם המון אהבה.
       </p>
       <a href="#products" class="btn-primary">הזמינו עכשיו</a>
     </div>
@@ -1025,6 +1288,11 @@
         <div class="form-row">
           <label for="order-date" class="form-label">תאריך קבלה</label>
           <input type="date" id="order-date" class="form-input" min="" />
+          <div id="date-hint" style="margin-top:7px;font-size:.8rem;color:var(--gray);">
+            📅 ניתן להזמין לימי <strong>רביעי, חמישי ושישי</strong> בלבד
+          </div>
+          <div id="date-error" style="display:none;margin-top:7px;font-size:.82rem;color:#b91c1c;font-weight:600;">
+          </div>
         </div>
 
         <!-- Delivery -->
@@ -1054,6 +1322,49 @@
           </svg>
           שלח הזמנה בוואטסאפ
         </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────── SPECIAL PACKAGES ─────────────────────────────────── -->
+  <section id="packages">
+    <div class="container">
+      <div class="packages-header reveal">
+        <h2 class="section-title">מארזים מיוחדים</h2>
+        <div class="divider"></div>
+        <p class="section-sub">מארז מותאם אישית לכל אירוע – לפי הטעם והתקציב שלכם</p>
+      </div>
+
+      <div class="packages-grid">
+        <div class="package-card reveal">
+          <span class="package-icon">🎂</span>
+          <div class="package-name">ימי הולדת</div>
+          <p class="package-desc">מארז קינוחים חגיגי שיהפוך את יום ההולדת לבלתי נשכח – בעיצוב, צבעים וטעמים שתבחרו</p>
+        </div>
+        <div class="package-card reveal">
+          <span class="package-icon">🎉</span>
+          <div class="package-name">חגיגות ואירועים</div>
+          <p class="package-desc">מארזי קינוחים מושקעים לאירועים – בר מצווה, ברית, יום נישואים ועוד, לפי מספר המוזמנים
+          </p>
+        </div>
+        <div class="package-card reveal">
+          <span class="package-icon">✨</span>
+          <div class="package-name">אירוח חגיגי</div>
+          <p class="package-desc">שולחן קינוחים מרשים לאירוח – מבחר עשיר ומגוון שיתאים בדיוק לתקציב ולאווירה שאתם מחפשים
+          </p>
+        </div>
+      </div>
+
+      <div class="packages-cta reveal">
+        <p>מעוניינים במארז מיוחד? פנו אליי בפרטי ונבנה ביחד את המארז המושלם בדיוק בשבילכם 🤍</p>
+        <a href="https://wa.me/972543193330?text=%D7%94%D7%99%D7%99%20%D7%9C%D7%99%D7%90%D7%9C%20%F0%9F%8C%B8%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%9E%D7%90%D7%A8%D7%96%20%D7%9E%D7%99%D7%95%D7%97%D7%93%20%E2%80%93%20%D7%90%D7%A4%D7%A9%D7%A8%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%3F"
+          target="_blank" rel="noopener" class="btn-packages-wa">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+          </svg>
+          פנו אליי בפרטי
+        </a>
       </div>
     </div>
   </section>
@@ -1096,13 +1407,111 @@
   <!-- ──────────────────── TOAST ────────────────────────────────────────────── -->
   <div id="toast"></div>
 
+  <!-- ──────────────────── FLAVOR MODAL ────────────────────────────── -->
+  <div class="flavor-overlay" id="flavor-overlay">
+    <div class="flavor-modal">
+      <button class="flavor-modal-close" onclick="closeFlavor()">✕</button>
+      <div class="flavor-modal-title">מגולגלות ליאל – בחרו טעמים</div>
+      <div class="flavor-modal-sub">מארז של 12 יחידות – בחרו איך להרכיב את המארז</div>
+
+      <!-- Mix type -->
+      <div class="mix-options">
+        <label class="mix-opt">
+          <input type="radio" name="mix-type" value="mix3" checked />
+          <div class="mix-opt-title"> מיקס מלא</div>
+          <div class="mix-opt-desc">3 מכל אחד מ-4 הטעמים (12 סה"כ)</div>
+        </label>
+        <label class="mix-opt">
+          <input type="radio" name="mix-type" value="66" />
+          <div class="mix-opt-title"> 6+6 – שני טעמים</div>
+          <div class="mix-opt-desc">בחרו 2 טעמים, 6 מכל אחד</div>
+        </label>
+        <label class="mix-opt">
+          <input type="radio" name="mix-type" value="444" />
+          <div class="mix-opt-title"> 4+4+4 – שלושה טעמים</div>
+          <div class="mix-opt-desc">בחרו 3 טעמים, 4 מכל אחד</div>
+        </label>
+      </div>
+
+      <!-- Flavor pickers (shown for 6+6 and 4+4+4) -->
+      <div class="flavor-pickers" id="flavor-pickers">
+        <div class="flavor-pick-row" id="frow-1">
+          <span class="flavor-pick-label">טעם 1</span>
+          <select class="flavor-select" id="fl1">
+            <option value="">בחרו טעם...</option>
+            <option>נוטלה דובאי</option>
+            <option>קקאו קינדר</option>
+            <option>נוטלה קינדר</option>
+            <option>קורנפלקס שוקולד לבן</option>
+          </select>
+        </div>
+        <div class="flavor-pick-row" id="frow-2">
+          <span class="flavor-pick-label">טעם 2</span>
+          <select class="flavor-select" id="fl2">
+            <option value="">בחרו טעם...</option>
+            <option>נוטלה דובאי</option>
+            <option>קקאו קינדר</option>
+            <option>נוטלה קינדר</option>
+            <option>קורנפלקס שוקולד לבן</option>
+          </select>
+        </div>
+        <div class="flavor-pick-row" id="frow-3" style="display:none">
+          <span class="flavor-pick-label">טעם 3</span>
+          <select class="flavor-select" id="fl3">
+            <option value="">בחרו טעם...</option>
+            <option>נוטלה דובאי</option>
+            <option>קקאו קינדר</option>
+            <option>נוטלה קינדר</option>
+            <option>קורנפלקס שוקולד לבן</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn-add-flavored" onclick="confirmFlavor()">הוסף לעגלה ✓</button>
+    </div>
+  </div>
+  <!-- ────────────────── FLAVOR MODAL 2 (Crumble Cookies) ────────────── -->
+  <div class="flavor-overlay" id="flavor2-overlay">
+    <div class="flavor-modal">
+      <button class="flavor-modal-close" onclick="closeFlavor2()">✕</button>
+      <div class="flavor-modal-title">קראמבל קוקיז – בחרו מארז וטעמים</div>
+      <div class="flavor-modal-sub">עוגיות פריכות עם שכבת קראמבל – בחרו גודל וטעמים</div>
+
+      <!-- Box size -->
+      <div style="margin-bottom:18px;">
+        <div class="form-label" style="margin-bottom:10px;">גודל מארז</div>
+        <div style="display:flex;gap:12px;">
+          <label class="mix-opt" style="flex:1;">
+            <input type="radio" name="p2-box" value="4" checked />
+            <div class="mix-opt-title">📦 4 יחידות</div>
+            <div class="mix-opt-desc">₪80</div>
+          </label>
+          <label class="mix-opt" style="flex:1;">
+            <input type="radio" name="p2-box" value="6" />
+            <div class="mix-opt-title">📦 6 יחידות</div>
+            <div class="mix-opt-desc">₪110</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Flavor steppers -->
+      <div class="form-label" style="margin-bottom:10px;">טעמים <span id="p2-counter"
+          style="color:var(--accent2);">0/4</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;" id="p2-flavors">
+        <!-- Rows injected by JS -->
+      </div>
+
+      <button class="btn-add-flavored" onclick="confirmFlavor2()">הוסף לעגלה ✓</button>
+    </div>
+  </div>
+
   <script>
     /* ───── PRODUCT DATA ───── */
     const products = [
       {
         id: 1,
         name: "מגולגלות ליאל",
-        desc:  "מגולגלות עשירות במגוון טעמים",
+        desc: "מגולגלות עשירות במגוון טעמים",
         price: 65,
         unit: "12 יחידות",
         img: "ITEM1(2).jpeg"
@@ -1110,9 +1519,9 @@
       {
         id: 2,
         name: "קראמבל קוקיז",
-        desc: " עוגיות פריכות עם שכבת קראמבל במגוון טעמים ",
-        price: 20,
-        unit: "ליחידה (מינימום 4/6)",
+        desc: "עוגיות פריכות עם שכבת קראמבל במגוון טעמים",
+        price: 80,
+        unit: "מארז 4 ב-₪80 | מארז 6 ב-₪110",
         img: "ITEM2.jpeg"
       },
       {
@@ -1155,7 +1564,7 @@
         unit: "ליחידה",
         img: "ITEM7.jpeg"
       },
-    {
+      {
         id: 8,
         name: "עוגת ליאל אדרי",
         desc: "עוגת שכבות מרהיבה עם קרם שוקולד עשיר וטופ של נוטלה עם סוכריות צבעוניות",
@@ -1208,7 +1617,29 @@
       document.getElementById(`qty-${id}`).textContent = quantities[id];
     }
 
+    // Flavor state for product 1
+    let pendingFlavorQty = 1;
+    // Flavor state for product 2
+    let pendingFlavor2Qty = 1;
+
+    let cartFlavors = {}; // { 1: "desc", 2: "desc" }
+    let cartPrices = {}; // price overrides for variable-price products
+
+    function getItemPrice(id) {
+      return cartPrices[id] !== undefined ? cartPrices[id] : (products.find(p => p.id == id)?.price || 0);
+    }
+
     function addToCart(id) {
+      if (id === 1) {
+        pendingFlavorQty = quantities[1] || 1;
+        openFlavor();
+        return;
+      }
+      if (id === 2) {
+        pendingFlavor2Qty = quantities[2] || 1;
+        openFlavor2();
+        return;
+      }
       const qty = quantities[id] || 1;
       cart[id] = (cart[id] || 0) + qty;
       updateCartUI();
@@ -1219,11 +1650,177 @@
       showToast(`${products.find(p => p.id === id).name} נוסף לעגלה`);
     }
 
+    /* ───── FLAVOR MODAL ───── */
+    function openFlavor() {
+      // Reset modal state
+      document.querySelector('input[name="mix-type"][value="mix3"]').checked = true;
+      document.getElementById('fl1').value = '';
+      document.getElementById('fl2').value = '';
+      document.getElementById('fl3').value = '';
+      updateFlavorPickers();
+      document.getElementById('flavor-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFlavor() {
+      document.getElementById('flavor-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function updateFlavorPickers() {
+      const mix = document.querySelector('input[name="mix-type"]:checked').value;
+      const pickers = document.getElementById('flavor-pickers');
+      const row3 = document.getElementById('frow-3');
+      if (mix === 'mix3') {
+        pickers.classList.remove('visible');
+      } else {
+        pickers.classList.add('visible');
+        row3.style.display = mix === '444' ? 'flex' : 'none';
+      }
+    }
+
+    // Wire up mix-type radio change
+    document.querySelectorAll('input[name="mix-type"]').forEach(r =>
+      r.addEventListener('change', updateFlavorPickers)
+    );
+
+    function confirmFlavor() {
+      const mix = document.querySelector('input[name="mix-type"]:checked').value;
+      let flavorDesc = '';
+
+      if (mix === 'mix3') {
+        flavorDesc = 'מיקס מלא – 3 מכל טעם (נוטלה דובאי, קקאו קינדר, נוטלה קינדר, קורנפלקס שוקולד לבן)';
+      } else if (mix === '66') {
+        const f1 = document.getElementById('fl1').value;
+        const f2 = document.getElementById('fl2').value;
+        if (!f1 || !f2) { showToast('נא לבחור 2 טעמים'); return; }
+        if (f1 === f2) { showToast('יש לבחור שני טעמים שונים'); return; }
+        flavorDesc = `6+6 – ${f1} (6) + ${f2} (6)`;
+      } else {
+        const f1 = document.getElementById('fl1').value;
+        const f2 = document.getElementById('fl2').value;
+        const f3 = document.getElementById('fl3').value;
+        if (!f1 || !f2 || !f3) { showToast('נא לבחור 3 טעמים'); return; }
+        if (new Set([f1, f2, f3]).size < 3) { showToast('יש לבחור שלושה טעמים שונים'); return; }
+        flavorDesc = `4+4+4 – ${f1} (4) + ${f2} (4) + ${f3} (4)`;
+      }
+
+      cart[1] = (cart[1] || 0) + pendingFlavorQty;
+      cartFlavors[1] = flavorDesc;
+      updateCartUI();
+      closeFlavor();
+      const btn = document.getElementById('atc-1');
+      btn.textContent = '✓ נוסף!';
+      btn.classList.add('added');
+      setTimeout(() => { btn.textContent = 'הוסף לעגלה'; btn.classList.remove('added'); }, 1400);
+      showToast('מגולגלות ליאל נוספו לעגלה');
+    }
+
+    /* ───── FLAVOR MODAL 2 – קראמבל קוקיז ───── */
+    const P2_FLAVORS = ['נוטלה', 'שוקולד לבן', 'אוראו', 'הרשיז', 'קורנפלקס', 'דובאי פיסטוק', 'קינדר'];
+    const P2_PRICES = { 4: 80, 6: 110 };
+    let p2Qty = {}; // { flavorName: count }
+
+    function p2BoxSize() {
+      return parseInt(document.querySelector('input[name="p2-box"]:checked')?.value || '4');
+    }
+
+    function p2Total() {
+      return P2_FLAVORS.reduce((s, f) => s + (p2Qty[f] || 0), 0);
+    }
+
+    function p2UpdateCounter() {
+      const box = p2BoxSize();
+      const total = p2Total();
+      const el = document.getElementById('p2-counter');
+      el.textContent = `${total}/${box}`;
+      el.style.color = total === box ? 'var(--green-wa)' : 'var(--accent2)';
+      // Update all + buttons
+      P2_FLAVORS.forEach(f => {
+        const btn = document.getElementById(`p2-plus-${f.replace(/\s/g, '_')}`);
+        if (btn) btn.disabled = total >= box;
+      });
+    }
+
+    function p2StepFlavor(flavor, delta) {
+      const box = p2BoxSize();
+      const cur = p2Qty[flavor] || 0;
+      const newVal = Math.max(0, cur + delta);
+      if (delta > 0 && p2Total() >= box) return;
+      p2Qty[flavor] = newVal;
+      const span = document.getElementById(`p2-val-${flavor.replace(/\s/g, '_')}`);
+      if (span) span.textContent = newVal;
+      p2UpdateCounter();
+    }
+
+    function p2BuildRows() {
+      const container = document.getElementById('p2-flavors');
+      container.innerHTML = P2_FLAVORS.map(f => {
+        const key = f.replace(/\s/g, '_');
+        return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border:1.5px solid var(--sand);border-radius:10px;background:var(--cream);">
+          <span style="font-size:.9rem;font-weight:500;">${f}</span>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button class="cart-qty-btn" onclick="p2StepFlavor('${f}',-1)">−</button>
+            <span id="p2-val-${key}" style="min-width:20px;text-align:center;font-weight:600;">0</span>
+            <button class="cart-qty-btn" id="p2-plus-${key}" onclick="p2StepFlavor('${f}',1)">+</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function openFlavor2() {
+      // Reset
+      p2Qty = {};
+      P2_FLAVORS.forEach(f => p2Qty[f] = 0);
+      document.querySelector('input[name="p2-box"][value="4"]').checked = true;
+      p2BuildRows();
+      p2UpdateCounter();
+      // Wire box-size change
+      document.querySelectorAll('input[name="p2-box"]').forEach(r =>
+        r.addEventListener('change', () => {
+          // Reset quantities when box size changes
+          P2_FLAVORS.forEach(f => { p2Qty[f] = 0; });
+          p2BuildRows();
+          p2UpdateCounter();
+        })
+      );
+      document.getElementById('flavor2-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFlavor2() {
+      document.getElementById('flavor2-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function confirmFlavor2() {
+      const box = p2BoxSize();
+      const total = p2Total();
+      if (total !== box) {
+        showToast(`נא לבחור בדיוק ${box} יחידות (בחרתם ${total})`);
+        return;
+      }
+      const price = P2_PRICES[box];
+      const parts = P2_FLAVORS.filter(f => p2Qty[f] > 0).map(f => `${f} (${p2Qty[f]})`);
+      const flavorDesc = `מארז ${box} יח׳ – ${parts.join(', ')}`;
+
+      cartPrices[2] = price;
+      cartFlavors[2] = flavorDesc;
+      cart[2] = (cart[2] || 0) + 1;
+      updateCartUI();
+      closeFlavor2();
+      const btn = document.getElementById('atc-2');
+      btn.textContent = '✓ נוסף!';
+      btn.classList.add('added');
+      setTimeout(() => { btn.textContent = 'הוסף לעגלה'; btn.classList.remove('added'); }, 1400);
+      showToast(`קראמבל קוקיז נוספו לעגלה`);
+    }
+
     /* ───── CART UI ───── */
     function updateCartUI() {
       const items = Object.entries(cart).filter(([, q]) => q > 0);
       const totalItems = items.reduce((s, [, q]) => s + q, 0);
-      const totalPrice = items.reduce((s, [id, q]) => s + (products.find(p => p.id == id)?.price || 0) * q, 0);
+      const totalPrice = items.reduce((s, [id, q]) => s + getItemPrice(id) * q, 0);
 
       /* count badge */
       const badge = document.getElementById('cart-count');
@@ -1244,17 +1841,24 @@
         cartItemsEl.innerHTML = items.map(([id, qty]) => {
           const p = products.find(pr => pr.id == id);
           const imgSrc = imgMap[p.img] || p.img;
+          const flavorLine = (p.id == 1 && cartFlavors[1])
+            ? `<div style="font-size:.75rem;color:var(--accent2);margin-top:4px;">🍫 ${cartFlavors[1]}</div>`
+            : (p.id == 2 && cartFlavors[2])
+              ? `<div style="font-size:.75rem;color:var(--accent2);margin-top:4px;">🍪 ${cartFlavors[2]}</div>`
+              : '';
+          const itemPrice = getItemPrice(p.id);
           return `
         <div class="cart-item" id="ci-${p.id}">
           <div class="cart-item-img"><img src="${imgSrc}" alt="${p.name}"/></div>
           <div class="cart-item-info">
             <div class="cart-item-name">${p.name}</div>
-            <div class="cart-item-price">₪${p.price} ${p.unit}</div>
+            ${flavorLine}
+            <div class="cart-item-price">₪${itemPrice}</div>
             <div class="cart-item-actions">
               <button class="cart-qty-btn" onclick="cartChange(${p.id},-1)">−</button>
               <span class="cart-item-qty">${qty}</span>
               <button class="cart-qty-btn" onclick="cartChange(${p.id},1)">+</button>
-              <span class="cart-item-total">₪${p.price * qty}</span>
+              <span class="cart-item-total">₪${itemPrice * qty}</span>
             </div>
           </div>
           <button class="cart-item-remove" onclick="removeFromCart(${p.id})" title="הסר">✕</button>
@@ -1274,6 +1878,8 @@
 
     function removeFromCart(id) {
       delete cart[id];
+      if (id == 1) delete cartFlavors[1];
+      if (id == 2) { delete cartFlavors[2]; delete cartPrices[2]; }
       updateCartUI();
     }
 
@@ -1317,15 +1923,28 @@
         document.getElementById('order-date').focus();
         return;
       }
-      const [y, m, d] = date.split('-');
-      const dateHe = `${d}/${m}/${y}`;
-      const totalPrice = items.reduce((s, [id, q]) => s + (products.find(p => p.id == id)?.price || 0) * q, 0);
+      const [y, m, d] = date.split('-').map(Number);
+      const selectedDay = new Date(y, m - 1, d).getDay();
+      if (!ALLOWED_DAYS.includes(selectedDay)) {
+        showToast('ניתן להזמין רק לימי רביעי, חמישי או שישי');
+        document.getElementById('order-date').focus();
+        return;
+      }
+      const dateHe = `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`;
+      const totalPrice = items.reduce((s, [id, q]) => s + getItemPrice(id) * q, 0);
 
       let msg = `*הזמנה חדשה – ליאל אדרי Homemade Baking* 🍰\n\n`;
       msg += `📦 *פריטים:*\n`;
       items.forEach(([id, qty]) => {
         const p = products.find(pr => pr.id == id);
-        msg += `  • ${p.name} × ${qty} = ₪${p.price * qty}\n`;
+        const ip = getItemPrice(p.id);
+        msg += `  • ${p.name} × ${qty} = ₪${ip * qty}\n`;
+        if (p.id == 1 && cartFlavors[1]) {
+          msg += `    🍫 טעמים: ${cartFlavors[1]}\n`;
+        }
+        if (p.id == 2 && cartFlavors[2]) {
+          msg += `    🍪 טעמים: ${cartFlavors[2]}\n`;
+        }
       });
       msg += `\n💰 *סה"כ: ₪${totalPrice}*\n`;
       msg += `📅 *תאריך קבלה: ${dateHe}*\n`;
@@ -1357,12 +1976,43 @@
       document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     }
 
-    /* ───── DATE: min = tomorrow ───── */
+    /* ───── DATE: only Wed(3) Thu(4) Fri(5) ───── */
+    const ALLOWED_DAYS = [3, 4, 5]; // 0=Sun ... 6=Sat
+
+    function nextAllowedDate(from) {
+      const d = new Date(from);
+      d.setHours(0, 0, 0, 0);
+      while (!ALLOWED_DAYS.includes(d.getDay())) {
+        d.setDate(d.getDate() + 1);
+      }
+      return d;
+    }
+
     (function setMinDate() {
-      const t = new Date();
-      t.setDate(t.getDate() + 1);
-      const iso = t.toISOString().split('T')[0];
-      document.getElementById('order-date').min = iso;
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+      const first = nextAllowedDate(tomorrow);
+      const iso = first.toISOString().split('T')[0];
+      const input = document.getElementById('order-date');
+      input.min = iso;
+      input.value = '';
+
+      input.addEventListener('change', function () {
+        const errEl = document.getElementById('date-error');
+        if (!this.value) { errEl.style.display = 'none'; return; }
+        // parse as local date
+        const [y, m, d] = this.value.split('-').map(Number);
+        const selected = new Date(y, m - 1, d);
+        if (!ALLOWED_DAYS.includes(selected.getDay())) {
+          errEl.textContent = '⚠️ ניתן לבחור רק ימי רביעי, חמישי או שישי. נא לבחור תאריך מתאים.';
+          errEl.style.display = 'block';
+          this.style.borderColor = '#b91c1c';
+        } else {
+          errEl.style.display = 'none';
+          this.style.borderColor = '';
+        }
+      });
     })();
 
     /* ───── INIT ───── */
