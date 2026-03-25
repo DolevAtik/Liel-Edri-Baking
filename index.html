@@ -1694,14 +1694,12 @@
         const f1 = document.getElementById('fl1').value;
         const f2 = document.getElementById('fl2').value;
         if (!f1 || !f2) { showToast('נא לבחור 2 טעמים'); return; }
-        if (f1 === f2) { showToast('יש לבחור שני טעמים שונים'); return; }
         flavorDesc = `6+6 – ${f1} (6) + ${f2} (6)`;
       } else {
         const f1 = document.getElementById('fl1').value;
         const f2 = document.getElementById('fl2').value;
         const f3 = document.getElementById('fl3').value;
         if (!f1 || !f2 || !f3) { showToast('נא לבחור 3 טעמים'); return; }
-        if (new Set([f1, f2, f3]).size < 3) { showToast('יש לבחור שלושה טעמים שונים'); return; }
         flavorDesc = `4+4+4 – ${f1} (4) + ${f2} (4) + ${f3} (4)`;
       }
 
