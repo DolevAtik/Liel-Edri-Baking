@@ -2041,7 +2041,7 @@
       const dateHe = `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`;
       const totalPrice = items.reduce((s, [id, q]) => s + getProductTotal(id, q), 0);
 
-      let msg = `*הזמנה חדשה – ליאל אדרי Homemade Baking* 🍰\n\n`;
+      let msg = `*   ליאל אדרי|Homemade Baking* 🍰\n\n`;
       msg += `📦 *פריטים:*\n`;
       items.forEach(([id, qty]) => {
         const p = products.find(pr => pr.id == id);
@@ -2049,12 +2049,12 @@
         msg += `  • ${p.name} × ${qty} = ₪${itemTotal}\n`;
         if (p.id == 1 && cartFlavorEntries[1]) {
           cartFlavorEntries[1].forEach((entry, idx) => {
-            msg += `    🍫 ${entry.desc}\n`;
+            msg += `     ${entry.desc}\n`;
           });
         }
         if (p.id == 2 && cartFlavorEntries[2]) {
           cartFlavorEntries[2].forEach((entry, idx) => {
-            msg += `    🍪 ${entry.desc} (₪${entry.price})\n`;
+            msg += `     ${entry.desc} (₪${entry.price})\n`;
           });
         }
       });

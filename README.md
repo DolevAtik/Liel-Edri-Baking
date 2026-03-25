@@ -21,7 +21,6 @@ A modern, conversion-focused dessert ordering platform built with pure HTML, CSS
 
 ## 🧠 Technical Highlights
 
-- Vanilla JavaScript (no frameworks)
 - Dynamic DOM manipulation
 - Event-driven architecture
 - URL-encoded message generation for WhatsApp API
