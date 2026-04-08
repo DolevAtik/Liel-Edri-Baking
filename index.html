@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ליאל אדרי – קונדיטוריה ואפייה ביתית בהזמנה אישית</title>
+  <title>ליאל אדרי – אפייה ביתית</title>
   <meta name="description"
     content="קונדיטוריה ואפייה ביתית מאת ליאל אדרי. עוגות מעוצבות, קראמבל קוקיז, מגולגלות, ומארזי מתוקים בעבודת יד ממרכיבים איכותיים לאירועים ושבתות." />
   <meta name="keywords"
@@ -14,7 +14,7 @@
 
   <!-- Open Graph / Web & WhatsApp Preview -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="ליאל אדרי – קונדיטוריה ואפייה ביתית" />
+  <meta property="og:title" content="ליאל אדרי – אפייה ביתית" />
   <meta property="og:description"
     content="קונדיטוריה ואפייה ביתית מאת ליאל אדרי. הזמינו מארזי קינוחים מושקעים מכל הלב!" />
   <meta property="og:url" content="https://liel-edri-baking.vercel.app/" />
@@ -162,8 +162,31 @@
     }
 
     @media (max-width: 820px) {
+      .nav-inner {
+        flex-wrap: wrap;
+        height: auto;
+        padding-top: 10px;
+        padding-bottom: 8px;
+        gap: 10px;
+      }
+
       .nav-links {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 5px;
+        gap: 15px;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .nav-links::-webkit-scrollbar {
         display: none;
+      }
+
+      .nav-link {
+        white-space: nowrap;
+        font-size: .85rem;
       }
     }
 
@@ -1708,7 +1731,7 @@
         desc: "מגולגלות עשירות במגוון טעמים",
         price: 65,
         unit: "12 יחידות",
-        img: "ITEM1(2).jpeg"
+        img: "ITEM1.jpeg"
       },
       {
         id: 2,
@@ -1716,7 +1739,7 @@
         desc: "עוגיות פריכות עם שכבת קראמבל במגוון טעמים",
         price: 80,
         unit: "מארז 4 ב-₪80 | מארז 6 ב-₪110",
-        img: "liel-edri/ITEM2.jpeg"
+        img: "ITEM2.jpeg"
       },
       {
         id: 3,
@@ -1740,7 +1763,7 @@
         desc: "שכבות של ביסקוויטים קרם גבינה עשיר ומעל פתיתי קורנפלקס",
         price: 65,
         unit: "ליחידה",
-        img: "liel-edri/ITEM5.jpeg"
+        img: "ITEM5.jpeg"
       },
       {
         id: 6,
