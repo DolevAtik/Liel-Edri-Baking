@@ -1825,8 +1825,8 @@
         <div class="product-body">
           <div class="product-name">${p.name}</div>
           <div class="product-desc">${p.desc}</div>
-          <div class="product-footer">
-            <div class="product-price">₪${p.price} <span>${p.unit}</span></div>
+          <div class="product-footer" style="${(p.id === 1 || p.id === 2) ? 'flex-wrap: nowrap;' : ''}">
+            <div class="product-price" style="${(p.id === 1 || p.id === 2) ? 'white-space: nowrap;' : ''}">₪${p.price} <span style="${(p.id === 1 || p.id === 2) ? 'font-size: 0.72rem;' : ''}">${p.unit}</span></div>
             <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
               ${(p.id === 1 || p.id === 2) ? '' : `
               <div class="qty-control">
