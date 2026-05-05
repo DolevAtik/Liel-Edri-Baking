@@ -1610,7 +1610,12 @@
   <div id="cart-drawer">
     <div class="cart-header">
       <span class="cart-title">🛒 העגלה שלי</span>
-      <button class="cart-close" onclick="closeCart()">✕</button>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button onclick="clearCart()"
+          style="background: none; border: none; color: var(--gray); cursor: pointer; font-family: 'Heebo', sans-serif; font-size: 0.85rem; text-decoration: underline;">רוקן
+          עגלה</button>
+        <button class="cart-close" onclick="closeCart()">✕</button>
+      </div>
     </div>
     <div id="cart-items"></div>
     <div class="cart-footer">
@@ -1714,7 +1719,7 @@
           <label class="mix-opt" style="flex:1;">
             <input type="radio" name="p2-box" value="6" />
             <div class="mix-opt-title">📦 6 יחידות</div>
-            <div class="mix-opt-desc">₪110</div>
+            <div class="mix-opt-desc">₪120</div>
           </label>
         </div>
       </div>
@@ -1737,7 +1742,7 @@
         id: 1,
         name: "מגולגלות ליאל",
         desc: "מגולגלות עשירות במגוון טעמים",
-        price: 65,
+        price: 70,
         unit: "12 יחידות",
         img: "ITEM1.jpeg"
       },
@@ -1746,7 +1751,7 @@
         name: "קראמבל קוקיז",
         desc: "עוגיות פריכות עם שכבת קראמבל במגוון טעמים",
         price: 80,
-        unit: "מארז 4 ב-₪80 | מארז 6 ב-₪110",
+        unit: "מארז 4 ב-₪80 | מארז 6 ב-₪120",
         img: "ITEM2.jpeg"
       },
       {
@@ -1943,7 +1948,7 @@
 
     /* ───── FLAVOR MODAL 2 – קראמבל קוקיז ───── */
     const P2_FLAVORS = ['נוטלה', 'שוקולד לבן', 'אוראו', 'הרשיז', 'קורנפלקס', 'דובאי פיסטוק', 'קינדר'];
-    const P2_PRICES = { 4: 80, 6: 110 };
+    const P2_PRICES = { 4: 80, 6: 120 };
     let p2Qty = {}; // { flavorName: count }
 
     function p2BoxSize() {
@@ -2086,7 +2091,12 @@
               <span class="cart-item-total">₪${itemPrice * qty}</span>
             </div>
           </div>
-          <button class="cart-item-remove" onclick="removeFromCart(${p.id})" title="הסר">✕</button>
+          <button class="cart-item-remove" onclick="removeFromCart(${p.id})" title="הסר">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+          </button>
         </div>`;
         }).join('');
       }
@@ -2097,8 +2107,11 @@
 
     function cartChange(id, delta) {
       cart[id] = Math.max(0, (cart[id] || 0) + delta);
-      if (cart[id] === 0) delete cart[id];
-      updateCartUI();
+      if (cart[id] === 0) {
+        removeFromCart(id);
+      } else {
+        updateCartUI();
+      }
     }
 
     function removeFromCart(id) {
@@ -2106,6 +2119,14 @@
       if (id == 1) delete cartFlavors[1];
       if (id == 2) { delete cartFlavors[2]; delete cartPrices[2]; }
       updateCartUI();
+    }
+
+    function clearCart() {
+      cart = {};
+      cartFlavors = {};
+      cartPrices = {};
+      updateCartUI();
+      showToast('העגלה רוקנה');
     }
 
     function openCart() {
@@ -2129,7 +2150,19 @@
       }
       const rows = items.map(([id, qty]) => {
         const p = products.find(pr => pr.id == id);
-        return `<div class="summary-item"><span>${p.name} x${qty}</span><span>₪${p.price * qty}</span></div>`;
+        const itemPrice = getItemPrice(p.id);
+        return `<div class="summary-item" style="align-items: center;">
+          <span>${p.name} x${qty}</span>
+          <div style="display:flex; align-items:center; gap: 10px;">
+            <span>₪${itemPrice * qty}</span>
+            <button onclick="removeFromCart(${p.id})" title="הסר" style="background:none;border:none;color:#b91c1c;cursor:pointer;padding:4px;display:flex;align-items:center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+              </svg>
+            </button>
+          </div>
+        </div>`;
       }).join('');
       el.innerHTML = rows + `<div class="summary-total"><span>סה"כ</span><span>₪${totalPrice}</span></div>`;
     }
