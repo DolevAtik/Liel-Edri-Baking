@@ -1060,7 +1060,7 @@
       font-weight: 500;
       opacity: 0;
       transition: all .3s ease;
-      z-index: 999;
+      z-index: 9999;
       white-space: nowrap;
       pointer-events: none;
     }
@@ -2151,9 +2151,18 @@
       const rows = items.map(([id, qty]) => {
         const p = products.find(pr => pr.id == id);
         const itemPrice = getItemPrice(p.id);
-        return `<div class="summary-item" style="align-items: center;">
-          <span>${p.name} x${qty}</span>
-          <div style="display:flex; align-items:center; gap: 10px;">
+        const flavorLine = (p.id == 1 && cartFlavors[1])
+          ? `<div style="font-size:.75rem;color:var(--gray);margin-top:2px;max-width:250px;line-height:1.2;">🍫 ${cartFlavors[1]}</div>`
+          : (p.id == 2 && cartFlavors[2])
+            ? `<div style="font-size:.75rem;color:var(--gray);margin-top:2px;max-width:250px;line-height:1.2;">🍪 ${cartFlavors[2]}</div>`
+            : '';
+            
+        return `<div class="summary-item" style="align-items: flex-start;">
+          <div style="display:flex; flex-direction:column; padding-top: 4px;">
+            <span style="font-weight: 500;">${p.name} x${qty}</span>
+            ${flavorLine}
+          </div>
+          <div style="display:flex; align-items:center; gap: 10px; padding-top: 4px;">
             <span>₪${itemPrice * qty}</span>
             <button onclick="removeFromCart(${p.id})" title="הסר" style="background:none;border:none;color:#b91c1c;cursor:pointer;padding:4px;display:flex;align-items:center;">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
