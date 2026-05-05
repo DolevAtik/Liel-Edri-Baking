@@ -1750,7 +1750,7 @@
         id: 2,
         name: "קראמבל קוקיז",
         desc: "עוגיות פריכות עם שכבת קראמבל במגוון טעמים",
-        price: 80,
+        price: 20,
         unit: "מארז 4 ב-₪80 | מארז 6 ב-₪120",
         img: "ITEM2.jpeg"
       },
@@ -1808,7 +1808,7 @@
     const imgMap = {};
 
     /* ───── CART STATE ───── */
-    let cart = {};   /* { id: quantity } */
+    let cart = [];   /* Array of { cartId, id, qty, flavor, price } */
     let quantities = {}; /* per-product card qty selectors */
     products.forEach(p => { quantities[p.id] = 1; });
 
@@ -1828,11 +1828,13 @@
           <div class="product-footer">
             <div class="product-price">₪${p.price} <span>${p.unit}</span></div>
             <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              ${(p.id === 1 || p.id === 2) ? '' : `
               <div class="qty-control">
                 <button class="qty-btn" onclick="changeQty(${p.id},-1)">−</button>
                 <span class="qty-val" id="qty-${p.id}">1</span>
                 <button class="qty-btn" onclick="changeQty(${p.id},1)">+</button>
               </div>
+              `}
               <button class="add-to-cart" id="atc-${p.id}" onclick="addToCart(${p.id})">הוסף לעגלה</button>
             </div>
           </div>
@@ -1852,13 +1854,6 @@
     // Flavor state for product 2
     let pendingFlavor2Qty = 1;
 
-    let cartFlavors = {}; // { 1: "desc", 2: "desc" }
-    let cartPrices = {}; // price overrides for variable-price products
-
-    function getItemPrice(id) {
-      return cartPrices[id] !== undefined ? cartPrices[id] : (products.find(p => p.id == id)?.price || 0);
-    }
-
     function addToCart(id) {
       if (id === 1) {
         pendingFlavorQty = quantities[1] || 1;
@@ -1871,7 +1866,12 @@
         return;
       }
       const qty = quantities[id] || 1;
-      cart[id] = (cart[id] || 0) + qty;
+      const existing = cart.find(item => item.id === id && !item.flavor);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({ cartId: id.toString(), id, qty, price: products.find(p => p.id === id).price });
+      }
       updateCartUI();
       const btn = document.getElementById(`atc-${id}`);
       btn.textContent = '✓ נוסף!';
@@ -1935,8 +1935,8 @@
         flavorDesc = `4+4+4 – ${f1} (4) + ${f2} (4) + ${f3} (4)`;
       }
 
-      cart[1] = (cart[1] || 0) + pendingFlavorQty;
-      cartFlavors[1] = flavorDesc;
+      const cartId = '1_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+      cart.push({ cartId, id: 1, qty: pendingFlavorQty, flavor: flavorDesc, price: products.find(p => p.id === 1).price });
       updateCartUI();
       closeFlavor();
       const btn = document.getElementById('atc-1');
@@ -2034,9 +2034,8 @@
       const parts = P2_FLAVORS.filter(f => p2Qty[f] > 0).map(f => `${f} (${p2Qty[f]})`);
       const flavorDesc = `מארז ${box} יח׳ – ${parts.join(', ')}`;
 
-      cartPrices[2] = price;
-      cartFlavors[2] = flavorDesc;
-      cart[2] = (cart[2] || 0) + 1;
+      const cartId = '2_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+      cart.push({ cartId, id: 2, qty: 1, flavor: flavorDesc, price: price });
       updateCartUI();
       closeFlavor2();
       const btn = document.getElementById('atc-2');
@@ -2048,9 +2047,9 @@
 
     /* ───── CART UI ───── */
     function updateCartUI() {
-      const items = Object.entries(cart).filter(([, q]) => q > 0);
-      const totalItems = items.reduce((s, [, q]) => s + q, 0);
-      const totalPrice = items.reduce((s, [id, q]) => s + getItemPrice(id) * q, 0);
+      const items = cart.filter(item => item.qty > 0);
+      const totalItems = items.reduce((s, item) => s + item.qty, 0);
+      const totalPrice = items.reduce((s, item) => s + item.price * item.qty, 0);
 
       /* count badge */
       const badge = document.getElementById('cart-count');
@@ -2068,30 +2067,27 @@
           <p>העגלה ריקה<br>הוסיפו משהו מתוק!</p>
         </div>`;
       } else {
-        cartItemsEl.innerHTML = items.map(([id, qty]) => {
-          const p = products.find(pr => pr.id == id);
+        cartItemsEl.innerHTML = items.map(item => {
+          const p = products.find(pr => pr.id == item.id);
           const imgSrc = imgMap[p.img] || p.img;
-          const flavorLine = (p.id == 1 && cartFlavors[1])
-            ? `<div style="font-size:.75rem;color:var(--accent2);margin-top:4px;">🍫 ${cartFlavors[1]}</div>`
-            : (p.id == 2 && cartFlavors[2])
-              ? `<div style="font-size:.75rem;color:var(--accent2);margin-top:4px;">🍪 ${cartFlavors[2]}</div>`
-              : '';
-          const itemPrice = getItemPrice(p.id);
+          const flavorLine = item.flavor
+            ? `<div style="font-size:.75rem;color:var(--accent2);margin-top:4px;">${p.id == 1 ? '🍫' : '🍪'} ${item.flavor}</div>`
+            : '';
           return `
-        <div class="cart-item" id="ci-${p.id}">
+        <div class="cart-item" id="ci-${item.cartId}">
           <div class="cart-item-img"><img src="${imgSrc}" alt="${p.name}"/></div>
           <div class="cart-item-info">
             <div class="cart-item-name">${p.name}</div>
             ${flavorLine}
-            <div class="cart-item-price">₪${itemPrice}</div>
+            <div class="cart-item-price">₪${item.price}</div>
             <div class="cart-item-actions">
-              <button class="cart-qty-btn" onclick="cartChange(${p.id},-1)">−</button>
-              <span class="cart-item-qty">${qty}</span>
-              <button class="cart-qty-btn" onclick="cartChange(${p.id},1)">+</button>
-              <span class="cart-item-total">₪${itemPrice * qty}</span>
+              <button class="cart-qty-btn" onclick="cartChange('${item.cartId}',-1)">−</button>
+              <span class="cart-item-qty">${item.qty}</span>
+              <button class="cart-qty-btn" onclick="cartChange('${item.cartId}',1)">+</button>
+              <span class="cart-item-total">₪${item.price * item.qty}</span>
             </div>
           </div>
-          <button class="cart-item-remove" onclick="removeFromCart(${p.id})" title="הסר">
+          <button class="cart-item-remove" onclick="removeFromCart('${item.cartId}')" title="הסר">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
               <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -2105,26 +2101,25 @@
       updateOrderSummary(items, totalPrice);
     }
 
-    function cartChange(id, delta) {
-      cart[id] = Math.max(0, (cart[id] || 0) + delta);
-      if (cart[id] === 0) {
-        removeFromCart(id);
-      } else {
-        updateCartUI();
+    function cartChange(cartId, delta) {
+      const item = cart.find(i => i.cartId === cartId);
+      if (item) {
+        item.qty = Math.max(0, item.qty + delta);
+        if (item.qty === 0) {
+          removeFromCart(cartId);
+        } else {
+          updateCartUI();
+        }
       }
     }
 
-    function removeFromCart(id) {
-      delete cart[id];
-      if (id == 1) delete cartFlavors[1];
-      if (id == 2) { delete cartFlavors[2]; delete cartPrices[2]; }
+    function removeFromCart(cartId) {
+      cart = cart.filter(i => i.cartId !== cartId);
       updateCartUI();
     }
 
     function clearCart() {
-      cart = {};
-      cartFlavors = {};
-      cartPrices = {};
+      cart = [];
       updateCartUI();
       showToast('העגלה רוקנה');
     }
@@ -2148,23 +2143,20 @@
         el.innerHTML = '<div class="order-empty-note">העגלה ריקה – הוסיפו מוצרים</div>';
         return;
       }
-      const rows = items.map(([id, qty]) => {
-        const p = products.find(pr => pr.id == id);
-        const itemPrice = getItemPrice(p.id);
-        const flavorLine = (p.id == 1 && cartFlavors[1])
-          ? `<div style="font-size:.75rem;color:var(--gray);margin-top:2px;max-width:250px;line-height:1.2;">🍫 ${cartFlavors[1]}</div>`
-          : (p.id == 2 && cartFlavors[2])
-            ? `<div style="font-size:.75rem;color:var(--gray);margin-top:2px;max-width:250px;line-height:1.2;">🍪 ${cartFlavors[2]}</div>`
-            : '';
-            
+      const rows = items.map(item => {
+        const p = products.find(pr => pr.id == item.id);
+        const flavorLine = item.flavor
+          ? `<div style="font-size:.75rem;color:var(--gray);margin-top:2px;max-width:250px;line-height:1.2;">${p.id == 1 ? '🍫' : '🍪'} ${item.flavor}</div>`
+          : '';
+
         return `<div class="summary-item" style="align-items: flex-start;">
           <div style="display:flex; flex-direction:column; padding-top: 4px;">
-            <span style="font-weight: 500;">${p.name} x${qty}</span>
+            <span style="font-weight: 500;">${p.name} x${item.qty}</span>
             ${flavorLine}
           </div>
           <div style="display:flex; align-items:center; gap: 10px; padding-top: 4px;">
-            <span>₪${itemPrice * qty}</span>
-            <button onclick="removeFromCart(${p.id})" title="הסר" style="background:none;border:none;color:#b91c1c;cursor:pointer;padding:4px;display:flex;align-items:center;">
+            <span>₪${item.price * item.qty}</span>
+            <button onclick="removeFromCart('${item.cartId}')" title="הסר" style="background:none;border:none;color:#b91c1c;cursor:pointer;padding:4px;display:flex;align-items:center;">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -2178,7 +2170,7 @@
 
     /* ───── WHATSAPP SEND ───── */
     function sendWhatsApp() {
-      const items = Object.entries(cart).filter(([, q]) => q > 0);
+      const items = cart.filter(item => item.qty > 0);
       if (items.length === 0) {
         showToast('הוסיפו מוצרים לעגלה תחילה');
         return;
@@ -2198,19 +2190,15 @@
         return;
       }
       const dateHe = `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`;
-      const totalPrice = items.reduce((s, [id, q]) => s + getItemPrice(id) * q, 0);
+      const totalPrice = items.reduce((s, item) => s + item.price * item.qty, 0);
 
       let msg = `*הזמנה חדשה – ליאל אדרי Homemade Baking* 🍰\n\n`;
       msg += `📦 *פריטים:*\n`;
-      items.forEach(([id, qty]) => {
-        const p = products.find(pr => pr.id == id);
-        const ip = getItemPrice(p.id);
-        msg += `  • ${p.name} × ${qty} = ₪${ip * qty}\n`;
-        if (p.id == 1 && cartFlavors[1]) {
-          msg += `    🍫 טעמים: ${cartFlavors[1]}\n`;
-        }
-        if (p.id == 2 && cartFlavors[2]) {
-          msg += `    🍪 טעמים: ${cartFlavors[2]}\n`;
+      items.forEach(item => {
+        const p = products.find(pr => pr.id == item.id);
+        msg += `  • ${p.name} × ${item.qty} = ₪${item.price * item.qty}\n`;
+        if (item.flavor) {
+          msg += `    ${p.id == 1 ? '🍫' : '🍪'} טעמים: ${item.flavor}\n`;
         }
       });
       msg += `\n💰 *סה"כ: ₪${totalPrice}*\n`;
